@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 FROM python:3.11-slim-buster
 ENV PYTHONUNBUFFERED=1
-LABEL Name=pt-backend Version=0.1.0
+LABEL Name=nc-backend Version=0.1.0
 
 WORKDIR /backend
 COPY requirements.dev.txt /backend/

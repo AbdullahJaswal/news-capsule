@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "dj_rest_auth.registration",
     # Apps
     "user",
+    "news",
 ]
 
 MIDDLEWARE = [

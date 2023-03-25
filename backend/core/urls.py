@@ -25,6 +25,7 @@ urlpatterns = [
     path("auth/registration/", include("dj_rest_auth.registration.urls")),
     # Apps
     path("user/", include("user.urls")),
+    path("news/", include("news.urls")),
 ]
 
 if settings.DEBUG:

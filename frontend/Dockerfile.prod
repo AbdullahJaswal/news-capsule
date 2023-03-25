@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 FROM node:18-buster-slim
-LABEL Name=pt-frontend Version=0.1.0
+LABEL Name=nc-frontend Version=0.1.0
 
 WORKDIR /frontend
 COPY package.json /frontend/

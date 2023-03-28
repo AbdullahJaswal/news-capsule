@@ -90,7 +90,7 @@ export const authOptions: any = {
   callbacks: {
     async redirect({ url, baseUrl }: any) {
       return url.startsWith(baseUrl)
-        ? Promise.resolve("/")
+        ? Promise.resolve("/dashboard")
         : Promise.resolve(baseUrl);
     },
     async jwt({ token, user, account, profile, isNewUser }: any) {
@@ -141,7 +141,6 @@ export const authOptions: any = {
 
         return null;
       } catch (error) {
-        console.log(error);
         return null;
       }
     },

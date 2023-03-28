@@ -1,5 +1,8 @@
-# from django.urls import include, path
+from django.urls import path
 
-app_name = "news"
+from .views import CapsuleDetailView, CapsuleListView
 
-urlpatterns = []
+urlpatterns = [
+    path("capsule/", CapsuleListView.as_view(), name="capsule-list"),
+    path("capsule/<slug:slug>/", CapsuleDetailView.as_view(), name="capsule-detail"),
+]

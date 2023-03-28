@@ -212,6 +212,9 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
 }
 
+# Cachalot settings
+CACHALOT_TIMEOUT = 60 * 10  # 10 minutes
+
 if TEST:
     ALLOWED_HOSTS = ["*"]
     CORS_ALLOW_ALL_ORIGINS = True
@@ -266,8 +269,8 @@ elif DEBUG:
     }
 else:
     # Add these on Production
-    ALLOWED_HOSTS = []
-    CORS_ALLOWED_ORIGINS = []
+    ALLOWED_HOSTS = ["24.28.0.1"]
+    CORS_ALLOWED_ORIGINS = ["24.28.0.1"]
 
     REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = [
         "rest_framework.renderers.JSONRenderer"

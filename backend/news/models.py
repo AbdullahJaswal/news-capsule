@@ -12,6 +12,7 @@ class Organization(models.Model):
         slugify_function=slugify_function,
         allow_duplicates=False,
         unique=True,
+        max_length=1000,
     )
 
     logo_url = models.URLField(null=True, blank=True, default="")
@@ -53,6 +54,7 @@ class Category(models.Model):
         slugify_function=slugify_function,
         allow_duplicates=False,
         unique=True,
+        max_length=1000,
     )
 
     description = models.TextField(null=True, blank=True)
@@ -88,6 +90,7 @@ class Article(models.Model):
         slugify_function=slugify_function,
         allow_duplicates=False,
         unique=True,
+        max_length=1000,
     )
 
     url = models.URLField(null=True, blank=True, unique=True)
@@ -96,6 +99,7 @@ class Article(models.Model):
     published_at = models.DateTimeField(null=True, blank=True)
 
     is_active = models.BooleanField(default=True)
+    is_processed = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -145,6 +149,7 @@ class Author(models.Model):
         slugify_function=slugify_function,
         allow_duplicates=False,
         unique=True,
+        max_length=1000,
     )
 
     url = models.URLField(null=True, blank=True, unique=True)
@@ -162,3 +167,38 @@ class Author(models.Model):
 
     def __str__(self):
         return str(self.name)
+
+
+class Capsule(models.Model):
+    article = models.ForeignKey(
+        Article,
+        on_delete=models.PROTECT,
+        null=False,
+        blank=False,
+        related_name="capsules",
+    )
+
+    title = models.CharField(max_length=1000, null=False, blank=False)
+    points = models.JSONField(default=dict, null=False, blank=False)
+
+    slug = AutoSlugField(
+        populate_from=["title"],
+        slugify_function=slugify_function,
+        allow_duplicates=False,
+        unique=True,
+        max_length=1000,
+    )
+
+    is_active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Capsule"
+        verbose_name_plural = "Capsules"
+
+        ordering = ("-id",)
+
+    def __str__(self):
+        return str(self.title)

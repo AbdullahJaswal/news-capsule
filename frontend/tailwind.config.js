@@ -8,28 +8,50 @@ module.exports = {
     themes: [
       {
         light: {
-          primary: "#45AEEE",
-          secondary: "#EF9FBC",
-          accent: "#EEAF3A",
-          neutral: "#D3E5E9",
-          "base-100": "#f5f9fa",
-          info: "#3ABFF8",
-          success: "#36D399",
-          warning: "#FBBD23",
-          error: "#F87272",
+          primary: "#0D0D0D",
+          secondary: "#1A1919",
+          accent: "#262626",
+          neutral: "#000000",
+          "base-100": "#FFFFFF",
+          info: "#0070F3",
+          success: "#21CC51",
+          warning: "#FF6154",
+          error: "#DE1C8D",
+
+          "--rounded-box": "0rem", // border radius rounded-box utility class, used in card and other large boxes
+          "--rounded-btn": "0rem", // border radius rounded-btn utility class, used in buttons and similar element
+          "--rounded-badge": "0rem", // border radius rounded-badge utility class, used in badges and similar
+          "--animation-btn": "0.25s", // duration of animation when you click on button
+          "--animation-input": "0.2s", // duration of animation for inputs like checkbox, toggle, radio, etc
+          "--btn-text-case": "uppercase", // set default text transform for buttons
+          "--btn-focus-scale": "0.95", // scale transform of button when you focus on it
+          "--border-btn": "1px", // border width of buttons
+          "--tab-border": "1px", // border width of tabs
+          "--tab-radius": "0rem", // border radius of tabs
         },
       },
       {
         dark: {
-          primary: "#45AEEE",
-          secondary: "#EF9FBC",
-          accent: "#EEAF3A",
-          neutral: "#272737",
-          "base-100": "#121219",
-          info: "#3ABFF8",
-          success: "#36D399",
-          warning: "#FBBD23",
-          error: "#F87272",
+          primary: "#e5e7eb",
+          secondary: "#343232",
+          accent: "#343232",
+          neutral: "#272626",
+          "base-100": "#000000",
+          info: "#0000FF",
+          success: "#008000",
+          warning: "#FFFF00",
+          error: "#FF0000",
+
+          "--rounded-box": "0rem", // border radius rounded-box utility class, used in card and other large boxes
+          "--rounded-btn": "0rem", // border radius rounded-btn utility class, used in buttons and similar element
+          "--rounded-badge": "0rem", // border radius rounded-badge utility class, used in badges and similar
+          "--animation-btn": "0.25s", // duration of animation when you click on button
+          "--animation-input": "0.2s", // duration of animation for inputs like checkbox, toggle, radio, etc
+          "--btn-text-case": "uppercase", // set default text transform for buttons
+          "--btn-focus-scale": "0.95", // scale transform of button when you focus on it
+          "--border-btn": "1px", // border width of buttons
+          "--tab-border": "1px", // border width of tabs
+          "--tab-radius": "0rem", // border radius of tabs
         },
       },
     ],

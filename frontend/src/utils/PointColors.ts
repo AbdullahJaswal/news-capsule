@@ -20,7 +20,7 @@ export default function getPointColors(type: string): string {
       return `hsl(33, 100%, 50%)`;
     case "Statistic":
       return `hsl(212, 18%, 50%)`;
-    case "Testimonie":
+    case "Testimony":
       return `hsl(217, 29%, 50%)`;
     case "Question":
       return `hsl(0, 0%, 50%)`;

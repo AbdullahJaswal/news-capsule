@@ -35,7 +35,7 @@ export default function getPointIcons(type: string): IconDefinition {
       return faUserSecret;
     case "Statistic":
       return faChartBar;
-    case "Testimonie":
+    case "Testimony":
       return faBalanceScale;
     case "Question":
       return faQuestion;

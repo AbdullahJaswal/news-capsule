@@ -1,6 +1,7 @@
 export interface Capsule {
   slug: string;
   title: string;
+  sentiment?: number;
   points?: Point[];
   created_at: string;
 }

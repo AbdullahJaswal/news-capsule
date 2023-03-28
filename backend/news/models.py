@@ -179,6 +179,7 @@ class Capsule(models.Model):
     )
 
     title = models.CharField(max_length=1000, null=False, blank=False)
+    sentiment = models.IntegerField(null=True, blank=True)
     points = models.JSONField(default=dict, null=False, blank=False)
 
     slug = AutoSlugField(

@@ -483,6 +483,7 @@ next-env.d.ts
 .fleet/
 
 # Custom
-static/
-staticfiles/
-mediafiles/
+/creds.txt
+/static
+/staticfiles
+/mediafiles

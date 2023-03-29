@@ -84,7 +84,7 @@ class Article(models.Model):
     )
     categories = models.ManyToManyField(Category, related_name="articles")
 
-    title = models.CharField(max_length=1000, null=True, blank=True)
+    title = models.TextField(null=True, blank=True)
     slug = AutoSlugField(
         populate_from=["organization__name", "title"],
         slugify_function=slugify_function,
@@ -180,7 +180,12 @@ class Capsule(models.Model):
 
     title = models.CharField(max_length=1000, null=False, blank=False)
     sentiment = models.IntegerField(null=True, blank=True)
-    points = models.JSONField(default=dict, null=False, blank=False)
+    points = models.JSONField(default=list, null=False, blank=False)
+
+    tags = models.ManyToManyField("Tag", related_name="capsules")
+    locations = models.ManyToManyField("Location", related_name="capsules")
+    institutions = models.ManyToManyField("Institution", related_name="capsules")
+    people = models.ManyToManyField("Person", related_name="capsules")
 
     slug = AutoSlugField(
         populate_from=["title"],
@@ -203,3 +208,103 @@ class Capsule(models.Model):
 
     def __str__(self):
         return str(self.title)
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=255, unique=True, null=False, blank=False)
+
+    slug = AutoSlugField(
+        populate_from=["name"],
+        slugify_function=slugify_function,
+        allow_duplicates=False,
+        unique=True,
+        max_length=1000,
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Tag"
+        verbose_name_plural = "Tags"
+
+        ordering = ("name",)
+
+    def __str__(self):
+        return self.name
+
+
+class Location(models.Model):
+    name = models.CharField(max_length=255, unique=True, null=False, blank=False)
+
+    slug = AutoSlugField(
+        populate_from=["name"],
+        slugify_function=slugify_function,
+        allow_duplicates=False,
+        unique=True,
+        max_length=1000,
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Location"
+        verbose_name_plural = "Locations"
+
+        ordering = ("name",)
+
+    def __str__(self):
+        return self.name
+
+
+class Institution(models.Model):
+    name = models.CharField(max_length=255, unique=True, null=False, blank=False)
+
+    slug = AutoSlugField(
+        populate_from=["name"],
+        slugify_function=slugify_function,
+        allow_duplicates=False,
+        unique=True,
+        max_length=1000,
+    )
+
+    description = models.TextField(null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Institution"
+        verbose_name_plural = "Institutions"
+
+        ordering = ("name",)
+
+    def __str__(self):
+        return self.name
+
+
+class Person(models.Model):
+    name = models.CharField(max_length=255, unique=True, null=False, blank=False)
+
+    slug = AutoSlugField(
+        populate_from=["name"],
+        slugify_function=slugify_function,
+        allow_duplicates=False,
+        unique=True,
+        max_length=1000,
+    )
+
+    description = models.TextField(null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Person"
+        verbose_name_plural = "People"
+
+        ordering = ("name",)
+
+    def __str__(self):
+        return self.name

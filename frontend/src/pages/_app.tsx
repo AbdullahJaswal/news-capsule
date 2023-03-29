@@ -21,10 +21,7 @@ config.autoAddCss = false;
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      [elementName: string]: React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLElement>,
-        HTMLElement
-      >;
+      [elementName: string]: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
     }
   }
 }
@@ -37,10 +34,7 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
-export default function App({
-  Component,
-  pageProps: { session, ...pageProps },
-}: AppPropsWithLayout) {
+export default function App({ Component, pageProps: { session, ...pageProps } }: AppPropsWithLayout) {
   const renderWithLayout =
     Component.getLayout ||
     function (page: ReactElement) {

@@ -26,9 +26,7 @@ export default function AuthNavbar() {
           <li className="text-error">
             <button
               className="hover:bg-error/20 hover:scale-110"
-              onClick={() =>
-                signOut({ callbackUrl: `${process.env.NEXTAUTH_URL}}` })
-              }
+              onClick={() => signOut({ callbackUrl: `${process.env.NEXTAUTH_URL}}` })}
             >
               <FontAwesomeIcon icon={faRightFromBracket} size={"lg"} />
             </button>

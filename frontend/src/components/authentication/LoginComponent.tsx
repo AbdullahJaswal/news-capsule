@@ -11,12 +11,10 @@ function Login() {
     <div className="hero min-h-screen">
       <div className="hero-content flex-col gap-x-10 lg:flex-row-reverse">
         <div className="text-center lg:text-left">
-          <h1 className="text-5xl font-bold">
-            Newscapsule: Get the News You Need, Faster!
-          </h1>
+          <h1 className="text-5xl font-bold">Newscapsule: Get the News You Need, Faster!</h1>
           <p className="py-6">
-            Discover the most efficient way to stay informed with
-            Newscapsule&apos;s AI-powered news summarization platform.
+            Discover the most efficient way to stay informed with Newscapsule&apos;s AI-powered news summarization
+            platform.
           </p>
         </div>
 
@@ -61,12 +59,7 @@ function Login() {
               </div>
 
               <div className="form-control mt-6">
-                <button
-                  type="submit"
-                  className={
-                    loading ? "btn btn-primary loading" : "btn btn-primary"
-                  }
-                >
+                <button type="submit" className={loading ? "btn btn-primary loading" : "btn btn-primary"}>
                   Login
                 </button>
               </div>

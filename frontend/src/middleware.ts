@@ -10,9 +10,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const protectedPaths = ["/dashboard"];
 
-  const matchesProtectedPath = protectedPaths.some((path) =>
-    pathname.startsWith(path),
-  );
+  const matchesProtectedPath = protectedPaths.some((path) => pathname.startsWith(path));
 
   if (matchesProtectedPath) {
     const token = await getToken({ req: request });

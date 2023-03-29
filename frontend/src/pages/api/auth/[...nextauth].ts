@@ -4,14 +4,11 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 async function refreshAccessToken(token: any) {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PRIVATE_API_URL}/auth/token/refresh/`,
-      {
-        method: "POST",
-        body: JSON.stringify({ refresh: token.refresh_token }),
-        headers: { "Content-Type": "application/json" },
-      },
-    );
+    const res = await fetch(`${process.env.NEXT_PRIVATE_API_URL}/auth/token/refresh/`, {
+      method: "POST",
+      body: JSON.stringify({ refresh: token.refresh_token }),
+      headers: { "Content-Type": "application/json" },
+    });
 
     const refreshedToken = await res.json();
 
@@ -59,14 +56,11 @@ export const authOptions: any = {
       },
       async authorize(credentials, req) {
         try {
-          const res = await fetch(
-            `${process.env.NEXT_PRIVATE_API_URL}/auth/login/`,
-            {
-              method: "POST",
-              body: JSON.stringify(credentials),
-              headers: { "Content-Type": "application/json" },
-            },
-          );
+          const res = await fetch(`${process.env.NEXT_PRIVATE_API_URL}/auth/login/`, {
+            method: "POST",
+            body: JSON.stringify(credentials),
+            headers: { "Content-Type": "application/json" },
+          });
           const token = await res.json();
 
           // if (res.status !== 200) throw user;
@@ -89,14 +83,11 @@ export const authOptions: any = {
   ],
   callbacks: {
     async redirect({ url, baseUrl }: any) {
-      return url.startsWith(baseUrl)
-        ? Promise.resolve("/dashboard")
-        : Promise.resolve(baseUrl);
+      return url.startsWith(baseUrl) ? Promise.resolve("/dashboard") : Promise.resolve(baseUrl);
     },
     async jwt({ token, user, account, profile, isNewUser }: any) {
       if (token && token.user) {
-        token.role =
-          token.user.is_staff && token.user.is_superuser ? "admin" : "user";
+        token.role = token.user.is_staff && token.user.is_superuser ? "admin" : "user";
       }
 
       // initial signin
@@ -129,13 +120,10 @@ export const authOptions: any = {
   events: {
     async signOut({ message }: any) {
       try {
-        const res = await fetch(
-          `${process.env.NEXT_PRIVATE_API_URL}/auth/logout/`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-          },
-        );
+        const res = await fetch(`${process.env.NEXT_PRIVATE_API_URL}/auth/logout/`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+        });
 
         if (res.status !== 200) throw res;
 

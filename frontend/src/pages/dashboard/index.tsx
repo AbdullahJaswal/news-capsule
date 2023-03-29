@@ -8,7 +8,7 @@ import { getServerSession } from "next-auth/next";
 
 import AuthLayout from "@/components/layouts/AuthLayout";
 import { getAllCapsules } from "../api/capsule/getAllCapsules";
-import { Capsule, Point } from "@/common/types/News/Capsule";
+import { Capsule, Point, Tag, Location } from "@/common/types/News/Capsule";
 
 import moment from "moment";
 import getPointColors from "@/utils/PointColors";
@@ -24,9 +24,7 @@ const font = Font({
   weight: "400",
 });
 
-export default function Dashboard({
-  capsules,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Dashboard({ capsules }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [points, setPoints] = useState<Point[]>([]);
   const [activeCapsule, setActiveCapsule] = useState<Capsule | null>(null);
 
@@ -45,10 +43,8 @@ export default function Dashboard({
             return (
               <div
                 key={index}
-                className={`card w-[30rem] border-2 text-primary hover:scale-105 transition-transform duration-100 ${
-                  capsule === activeCapsule
-                    ? "border-success"
-                    : "border-primary"
+                className={`card w-80 md:w-96 lg:w-[30rem] border-2 text-primary hover:scale-105 transition-transform duration-100 ${
+                  capsule === activeCapsule ? "border-success" : "border-primary"
                 }`}
                 onClick={() => {
                   setPoints(capsule.points || []);
@@ -58,11 +54,36 @@ export default function Dashboard({
                 <div className="card-body flex justify-between">
                   <div className="grid grid-cols-2">
                     <FontAwesomeIcon icon={faNewspaper} />
-                    <p className="text-xs text-gray-500 text-end">
-                      {moment(capsule.created_at).format("dddd ll")}
-                    </p>
+
+                    <span key={index} className="ml-auto flex gap-x-1 text-xl text-gray-500">
+                      {capsule.locations?.map((location: Location, index: number) => {
+                        return (
+                          <div key={index} className="tooltip tooltip-primary" data-tip={location.name}>
+                            {location.info?.flag || "[" + location.name + "]"}
+                          </div>
+                        );
+                      })}
+                    </span>
                   </div>
+
+                  <p className="text-xs text-gray-500 text-end">{moment(capsule.created_at).format("dddd ll")}</p>
+
                   <h2 className="card-title self-start">{capsule.title}</h2>
+
+                  <div className="divider h-0"></div>
+
+                  <div className="mt-2 card-actions justify-end">
+                    {capsule.tags?.map((tag: Tag, index: number) => {
+                      return (
+                        <div
+                          key={index}
+                          className="badge badge-outline badge-md cursor-pointer hover:border-warning hover:text-warning"
+                        >
+                          {tag.name}
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             );
@@ -103,10 +124,7 @@ export default function Dashboard({
                   return (
                     <li key={index}>
                       <span>
-                        <div
-                          className="text-start tooltip tooltip-primary"
-                          data-tip={point.type}
-                        >
+                        <div className="text-start tooltip tooltip-primary" data-tip={point.type}>
                           <FontAwesomeIcon
                             icon={getPointIcons(point.type)}
                             className="mr-2"
@@ -136,14 +154,8 @@ export default function Dashboard({
   );
 }
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext,
-) => {
-  const session: AuthSession | null = await getServerSession(
-    context.req,
-    context.res,
-    authOptions,
-  );
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+  const session: AuthSession | null = await getServerSession(context.req, context.res, authOptions);
 
   if (!session) {
     return {

@@ -22,14 +22,8 @@ export default function Home() {
   );
 }
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext,
-) => {
-  const session: AuthSession | null = await getServerSession(
-    context.req,
-    context.res,
-    authOptions,
-  );
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+  const session: AuthSession | null = await getServerSession(context.req, context.res, authOptions);
 
   if (session) {
     return {

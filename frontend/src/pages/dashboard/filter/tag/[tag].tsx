@@ -9,13 +9,14 @@ import { getServerSession } from "next-auth/next";
 import AuthLayout from "@/components/layouts/AuthLayout";
 import { getAllCapsules } from "@/pages/api/capsule/getAllCapsules";
 import { Capsule, Point, Tag, Location } from "@/common/types/News/Capsule";
+import { APIResponse } from "@/common/types/APIResponse";
 
 import moment from "moment";
 import getPointColors from "@/utils/PointColors";
 import getPointIcons from "@/utils/PointIcons";
 import getPointFontSize from "@/utils/PointFontSize";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faNewspaper, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faTag, faNewspaper, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 import { Martel as Font } from "next/font/google";
 import Link from "next/link";
@@ -25,7 +26,11 @@ const font = Font({
   weight: "400",
 });
 
-export default function Dashboard({ capsules }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function TagFilteredCapsule({
+  capsules,
+  tag_name,
+  tag_slug,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [points, setPoints] = useState<Point[]>([]);
   const [activeCapsule, setActiveCapsule] = useState<Capsule | null>(null);
 
@@ -41,8 +46,8 @@ export default function Dashboard({ capsules }: InferGetServerSidePropsType<type
       <div className="mx-auto max-w-7xl flex flex-row gap-10">
         <div className="flex flex-col gap-4">
           <h1 className="text-3xl font-bold py-5 text-left">
-            <FontAwesomeIcon icon={faHome} />
-            &nbsp;&nbsp;Dashboard
+            <FontAwesomeIcon icon={faTag} />
+            &nbsp;&nbsp;Tag: {tag_name}
           </h1>
 
           {capsules.results.map((capsule: Capsule, index: number) => {
@@ -81,7 +86,7 @@ export default function Dashboard({ capsules }: InferGetServerSidePropsType<type
                   <div className="mt-2 card-actions justify-end">
                     {capsule.tags?.map((tag: Tag, index: number) => {
                       return (
-                        <Link key={index} href={"dashboard/filter/tag/" + tag.slug}>
+                        <Link key={index} href={tag.slug}>
                           <div className="badge badge-outline badge-md hover:border-warning hover:text-warning">
                             {tag.name}
                           </div>
@@ -159,18 +164,27 @@ export default function Dashboard({ capsules }: InferGetServerSidePropsType<type
   );
 }
 
+function findTagNameBySlug(response: APIResponse<Capsule>, slug: string): string {
+  const tag = response.results[0].tags?.find((tag) => tag.slug === slug);
+
+  return tag?.name || "";
+}
+
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   context.res.setHeader("Cache-Control", "public, s-maxage=60, stale-while-revalidate=59");
 
   const session: AuthSession | null = await getServerSession(context.req, context.res, authOptions);
+  const tag_slug: string = context.params?.tag as string;
 
-  if (!session) {
+  if (!session || !tag_slug) {
     return {
       notFound: true,
     };
   }
 
-  const capsules = await getAllCapsules(session.access);
+  const capsules = await getAllCapsules(session.access, tag_slug);
+
+  const tag_name = findTagNameBySlug(capsules, tag_slug);
 
   if (!capsules.results) {
     return {
@@ -181,11 +195,13 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
   return {
     props: {
       capsules: capsules,
+      tag_name: tag_name,
+      tag_slug: tag_slug,
     },
   };
 };
 
-Dashboard.getLayout = function (page: ReactElement) {
+TagFilteredCapsule.getLayout = function (page: ReactElement) {
   return (
     <main className={font.className}>
       <AuthLayout>{page}</AuthLayout>

@@ -1,10 +1,33 @@
 import { APIResponse } from "@/common/types/APIResponse";
 import { Capsule } from "@/common/types/News/Capsule";
 
-export const getAllCapsules = async (access_token: string): Promise<APIResponse<Capsule>> => {
+export const getAllCapsules = async (
+  access_token: string,
+  tag?: string,
+  location?: string,
+  person?: string,
+  institution?: string,
+): Promise<APIResponse<Capsule>> => {
   try {
     const page_size = 20;
-    const url = `${process.env.NEXT_PRIVATE_API_URL}/news/capsule/?page_size=${page_size}`;
+
+    let url = `${process.env.NEXT_PRIVATE_API_URL}/news/capsule/?page_size=${page_size}`;
+
+    if (tag) {
+      url += `&tag=${tag}`;
+    }
+
+    if (location) {
+      url += `&location=${location}`;
+    }
+
+    if (person) {
+      url += `&person=${person}`;
+    }
+
+    if (institution) {
+      url += `&institution=${institution}`;
+    }
 
     const res = await fetch(url, {
       headers: {

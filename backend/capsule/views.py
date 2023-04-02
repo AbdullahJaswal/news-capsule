@@ -1,3 +1,4 @@
+from django.db.models import Case, IntegerField, When
 from rest_framework import generics, permissions
 
 from .models import Capsule
@@ -30,8 +31,17 @@ class CapsuleListView(generics.ListAPIView):
         if person:
             queryset = queryset.filter(people__slug=person)
 
-        queryset = queryset.prefetch_related(
-            "tags", "locations", "institutions", "people"
+        queryset = (
+            queryset.prefetch_related("tags", "locations", "institutions", "people")
+            .annotate(
+                status_order=Case(
+                    When(status="B", then=0),
+                    When(status="F", then=1),
+                    When(status="N", then=2),
+                    output_field=IntegerField(),
+                )
+            )
+            .order_by("status_order", "-id")
         )
 
         return queryset

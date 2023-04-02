@@ -1,4 +1,8 @@
+from datetime import timedelta
+
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.utils import timezone
 from django_extensions.db.fields import AutoSlugField
 
 from utils.slugify_function import slugify_function
@@ -170,6 +174,12 @@ class Author(models.Model):
 
 
 class Capsule(models.Model):
+    STATUS_CHOICES = (
+        ("N", "Normal"),
+        ("F", "Featured"),
+        ("B", "Breaking"),
+    )
+
     article = models.ForeignKey(
         Article,
         on_delete=models.PROTECT,
@@ -179,6 +189,16 @@ class Capsule(models.Model):
     )
 
     title = models.CharField(max_length=1000, null=False, blank=False)
+    status = models.CharField(
+        max_length=1, choices=STATUS_CHOICES, null=False, blank=False, default="N"
+    )
+    status_duration = models.IntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(48)],
+        null=True,
+        blank=True,
+        default=None,
+    )
+
     sentiment = models.IntegerField(null=True, blank=True)
     points = models.JSONField(default=list, null=False, blank=False)
 
@@ -208,6 +228,15 @@ class Capsule(models.Model):
 
     def __str__(self):
         return str(self.title)
+
+    def get_processed_status(self):
+        if self.status in ("F", "B"):
+            datetime_now = timezone.now()
+
+            if datetime_now - self.created_at > timedelta(hours=self.status_duration):
+                return "N"
+
+        return self.status
 
 
 class Tag(models.Model):
@@ -308,3 +337,29 @@ class Person(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ArticleSummary(models.Model):
+    article = models.ForeignKey(
+        Article,
+        on_delete=models.PROTECT,
+        null=False,
+        blank=False,
+        related_name="summaries",
+    )
+
+    text = models.TextField(null=False, blank=False)
+
+    is_processed = models.BooleanField(default=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Article Summary"
+        verbose_name_plural = "Article Summaries"
+
+        ordering = ("-id",)
+
+    def __str__(self):
+        return str(self.title)

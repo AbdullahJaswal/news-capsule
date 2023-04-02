@@ -115,7 +115,7 @@ export const authOptions: any = {
   },
   session: {
     strategy: "jwt",
-    maxAge: 60 * 60 * 3, // 3 hours (if user is inactive/idle for {maxAge}, they will be logged out)
+    maxAge: 60 * 60 * 1, // 1 hours (if user is inactive/idle for {maxAge}, they will be logged out)
   },
   events: {
     async signOut({ message }: any) {

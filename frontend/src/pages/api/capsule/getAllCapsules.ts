@@ -1,5 +1,5 @@
 import { APIResponse } from "@/common/types/APIResponse";
-import { Capsule } from "@/common/types/News/Capsule";
+import { Capsule } from "@/common/types/Capsule/Capsule";
 
 export const getAllCapsules = async (
   access_token: string,
@@ -11,7 +11,7 @@ export const getAllCapsules = async (
   try {
     const page_size = 20;
 
-    let url = `${process.env.NEXT_PRIVATE_API_URL}/news/capsule/?page_size=${page_size}`;
+    let url = `${process.env.NEXT_PRIVATE_API_URL}/capsule/?page_size=${page_size}`;
 
     if (tag) {
       url += `&tag=${tag}`;

@@ -9,7 +9,7 @@ import { SessionProvider } from "next-auth/react";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 
-import { Martel as Font } from "next/font/google";
+import { Merriweather as Font } from "next/font/google";
 
 const font = Font({
   subsets: ["latin"],

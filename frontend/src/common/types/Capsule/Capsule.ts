@@ -1,6 +1,7 @@
 export interface Capsule {
   slug: string;
   title: string;
+  status: string;
   sentiment?: number;
   tags?: Tag[];
   locations?: Location[];

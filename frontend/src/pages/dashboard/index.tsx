@@ -8,7 +8,7 @@ import { getServerSession } from "next-auth/next";
 
 import AuthLayout from "@/components/layouts/AuthLayout";
 import { getAllCapsules } from "@/pages/api/capsule/getAllCapsules";
-import { Capsule, Point, Tag, Location } from "@/common/types/News/Capsule";
+import { Capsule, Point, Tag, Location } from "@/common/types/Capsule/Capsule";
 
 import moment from "moment";
 import getPointColors from "@/utils/PointColors";
@@ -17,7 +17,7 @@ import getPointFontSize from "@/utils/PointFontSize";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome, faNewspaper, faXmark } from "@fortawesome/free-solid-svg-icons";
 
-import { Martel as Font } from "next/font/google";
+import { Merriweather as Font } from "next/font/google";
 import Link from "next/link";
 
 const font = Font({
@@ -59,7 +59,21 @@ export default function Dashboard({ capsules }: InferGetServerSidePropsType<type
               >
                 <div className="card-body flex justify-between">
                   <div className="grid grid-cols-2">
-                    <FontAwesomeIcon icon={faNewspaper} />
+                    <div>
+                      {capsule.status == "B" ? (
+                        <span className="text-error">
+                          <FontAwesomeIcon icon={faNewspaper} /> Breaking
+                        </span>
+                      ) : capsule.status == "F" ? (
+                        <span className="text-warning">
+                          <FontAwesomeIcon icon={faNewspaper} /> Featured
+                        </span>
+                      ) : (
+                        <span>
+                          <FontAwesomeIcon icon={faNewspaper} />
+                        </span>
+                      )}
+                    </div>
 
                     <span key={index} className="ml-auto flex gap-x-1 text-xl text-gray-500">
                       {capsule.locations?.map((location: Location, index: number) => {
@@ -74,7 +88,13 @@ export default function Dashboard({ capsules }: InferGetServerSidePropsType<type
 
                   <p className="text-xs text-gray-500 text-end">{moment(capsule.created_at).format("dddd ll")}</p>
 
-                  <h2 className="card-title self-start">{capsule.title}</h2>
+                  {capsule.status == "B" ? (
+                    <h2 className="card-title self-start text-error">{capsule.title}</h2>
+                  ) : capsule.status == "F" ? (
+                    <h2 className="card-title self-start text-warning">{capsule.title}</h2>
+                  ) : (
+                    <h2 className="card-title self-start">{capsule.title}</h2>
+                  )}
 
                   <div className="divider h-0"></div>
 

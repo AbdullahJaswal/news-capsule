@@ -26,6 +26,7 @@ urlpatterns = [
     # Apps
     path("user/", include("user.urls")),
     path("news/", include("news.urls")),
+    path("capsule/", include("capsule.urls")),
 ]
 
 if settings.DEBUG:

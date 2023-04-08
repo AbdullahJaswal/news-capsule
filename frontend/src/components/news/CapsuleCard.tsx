@@ -40,7 +40,8 @@ export default function CapsuleCard({ capsule, openModal }: Props) {
           <div className="grid grid-cols-2">
             <div>
               <span className={text_color}>
-                <FontAwesomeIcon icon={faNewspaper} /> Breaking
+                <FontAwesomeIcon icon={faNewspaper} />
+                {capsule.status == "B" && " Breaking"}
               </span>
             </div>
 

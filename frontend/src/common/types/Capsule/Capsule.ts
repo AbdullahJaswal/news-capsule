@@ -1,3 +1,9 @@
+export interface Capsules {
+  breaking: Capsule[];
+  featured: Capsule[];
+  normal: Capsule[];
+}
+
 export interface Capsule {
   slug: string;
   title: string;

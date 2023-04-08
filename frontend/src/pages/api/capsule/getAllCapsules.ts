@@ -1,5 +1,5 @@
 import { APIResponse } from "@/common/types/APIResponse";
-import { Capsule } from "@/common/types/Capsule/Capsule";
+import { Capsules } from "@/common/types/Capsule/Capsule";
 
 export const getAllCapsules = async (
   access_token: string,
@@ -7,7 +7,7 @@ export const getAllCapsules = async (
   location?: string,
   person?: string,
   institution?: string,
-): Promise<APIResponse<Capsule>> => {
+): Promise<Capsules> => {
   try {
     const page_size = 20;
 

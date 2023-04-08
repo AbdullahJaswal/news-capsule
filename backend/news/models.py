@@ -99,6 +99,9 @@ class Article(models.Model):
 
     url = models.URLField(null=True, blank=True, unique=True)
     description = models.TextField(null=True, blank=True)
+
+    content = models.TextField(null=True, blank=True)
+
     image = models.URLField(null=True, blank=True)
     published_at = models.DateTimeField(null=True, blank=True)
 

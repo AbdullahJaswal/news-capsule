@@ -1,15 +1,13 @@
-from django.db.models import Case, IntegerField, When
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .models import Capsule
-from .pagination import CapsulePagination
 from .serializers import CapsuleSerializer
 
 
-class CapsuleListView(generics.ListAPIView):
+class CapsuleListView(APIView):
     permission_classes = (permissions.IsAdminUser,)
-    pagination_class = CapsulePagination
-    serializer_class = CapsuleSerializer
 
     def get_queryset(self):
         tag = self.request.query_params.get("tag")
@@ -31,20 +29,24 @@ class CapsuleListView(generics.ListAPIView):
         if person:
             queryset = queryset.filter(people__slug=person)
 
-        queryset = (
-            queryset.prefetch_related("tags", "locations", "institutions", "people")
-            .annotate(
-                status_order=Case(
-                    When(status="B", then=0),
-                    When(status="F", then=1),
-                    When(status="N", then=2),
-                    output_field=IntegerField(),
-                )
-            )
-            .order_by("status_order", "-id")
-        )
+        queryset = queryset.prefetch_related(
+            "tags", "locations", "institutions", "people"
+        ).order_by("-id")
 
         return queryset
+
+    def get(self, request, *args, **kwargs):
+        breaking_capsules = self.get_queryset().filter(status="B")
+        featured_capsules = self.get_queryset().filter(status="F")
+        normal_capsules = self.get_queryset().filter(status="N")[:20]
+
+        response = {
+            "breaking": CapsuleSerializer(breaking_capsules, many=True).data,
+            "featured": CapsuleSerializer(featured_capsules, many=True).data,
+            "normal": CapsuleSerializer(normal_capsules, many=True).data,
+        }
+
+        return Response(response, status=status.HTTP_200_OK)
 
 
 class CapsuleDetailView(generics.RetrieveAPIView):

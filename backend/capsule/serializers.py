@@ -49,10 +49,10 @@ class CapsuleSerializer(serializers.ModelSerializer):
     institutions = InstitutionSerializer(many=True)
     people = PersonSerializer(many=True)
 
-    status = serializers.SerializerMethodField()
+    # status = serializers.SerializerMethodField()
 
-    def get_status(self, obj):
-        return obj.get_processed_status()
+    # def get_status(self, obj):
+    #     return obj.get_processed_status()
 
     locations = serializers.SerializerMethodField()
 

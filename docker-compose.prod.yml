@@ -13,7 +13,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "443:3000"
-      - "80:3000"
     networks:
       - staging
     depends_on:

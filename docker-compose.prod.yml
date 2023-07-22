@@ -12,7 +12,8 @@ services:
       - node_modules:/frontend/node_modules
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
-      - "3000:3000"
+      - "80:3000"
+      - "443:3000"
     networks:
       - staging
     depends_on:

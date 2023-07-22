@@ -270,8 +270,8 @@ elif DEBUG:
     }
 else:
     # Add these on Production
-    ALLOWED_HOSTS = ["24.28.0.1"]
-    CORS_ALLOWED_ORIGINS = ["24.28.0.1"]
+    ALLOWED_HOSTS = ["24.28.0.1", "newscapsule.net"]
+    CORS_ALLOWED_ORIGINS = ["24.28.0.1", "https://newscapsule.net"]
 
     REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = [
         "rest_framework.renderers.JSONRenderer"

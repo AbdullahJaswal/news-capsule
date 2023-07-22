@@ -8,7 +8,7 @@ type Props = {
 
 export default function FeaturedList({ capsules, openModal }: Props) {
   return (
-    <div className="grid gap-4 grid-cols-1 w-full">
+    <div className="grid gap-4 grid-cols-1 mx-auto">
       {capsules.map((capsule: Capsule, index: number) => (
         <CapsuleCard key={index} capsule={capsule} openModal={openModal} />
       ))}

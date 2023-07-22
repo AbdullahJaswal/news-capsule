@@ -1,30 +1,17 @@
 import Head from "next/head";
 
 import { ReactElement, useState } from "react";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
-import { AuthSession } from "@/common/types/Auth/AuthSession";
-import { getServerSession } from "next-auth/next";
 
 import AuthLayout from "@/components/layouts/AuthLayout";
 import { getAllCapsules } from "@/pages/api/capsule/getAllCapsules";
-import { Capsules, Capsule, Point, Tag, Location } from "@/common/types/Capsule/Capsule";
-
-import moment from "moment";
-import getPointColors from "@/utils/PointColors";
-import getPointIcons from "@/utils/PointIcons";
-import getPointFontSize from "@/utils/PointFontSize";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faNewspaper, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { TbUrgent } from "react-icons/tb";
+import { Capsule } from "@/common/types/Capsule/Capsule";
 
 import { Merriweather as Font } from "next/font/google";
-import Link from "next/link";
 import BreakingBar from "@/components/news/BreakingBar";
 import CapsuleModal from "@/components/news/CapsuleModal";
 import FeaturedList from "@/components/news/FeaturedList";
 import NormalGrid from "@/components/news/NormalGrid";
-import { scrollbarColorClasses } from "@/utils/StatusColors";
 
 const font = Font({
   subsets: ["latin"],
@@ -50,207 +37,6 @@ export default function Dashboard({ capsules }: InferGetServerSidePropsType<type
   const closeModal = () => {
     setIsCapsuleModalOpen(false);
   };
-
-  /* capsules.breaking = [
-    ...Array(4).fill({
-      title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      slug: "lorem-ipsum",
-      created_at: "2021-09-01T00:00:00.000000Z",
-      status: "B",
-      tags: [
-        {
-          name: "Lorem",
-          slug: "lorem",
-        },
-        {
-          name: "Ipsum",
-          slug: "ipsum",
-        },
-      ],
-      locations: [
-        {
-          name: "Lorem",
-          slug: "lorem",
-          info: {
-            flag: "🇱🇷",
-            alpha_2: "US",
-            alpha_3: "USA",
-            name: "United States",
-            numeric: "840",
-            official_name: "United States of America",
-          },
-        },
-        {
-          name: "Ipsum",
-          slug: "ipsum",
-          info: {
-            flag: "🇮🇹",
-            alpha_2: "IT",
-            alpha_3: "ITA",
-            name: "Italy",
-            numeric: "380",
-            official_name: "Italian Republic",
-          },
-        },
-      ],
-      institutions: [
-        {
-          name: "Lorem Ipsum University",
-          slug: "lorem-ipsum-university",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        },
-      ],
-      people: [
-        {
-          name: "John Doe",
-          slug: "john-doe",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        },
-      ],
-      points: [
-        {
-          text: "Lorem ipsum dolor sit amet.",
-          type: "Fact",
-          priority: 1,
-        },
-        {
-          text: "Consectetur adipiscing elit.",
-          type: "Opinion",
-          priority: 2,
-        },
-        {
-          text: "Lorem ipsum dolor sit amet.",
-          type: "Fact",
-          priority: 1,
-        },
-        {
-          text: "Consectetur adipiscing elit.",
-          type: "Opinion",
-          priority: 2,
-        },
-        {
-          text: "Lorem ipsum dolor sit amet.",
-          type: "Fact",
-          priority: 1,
-        },
-        {
-          text: "Consectetur adipiscing elit.",
-          type: "Opinion",
-          priority: 2,
-        },
-        {
-          text: "Lorem ipsum dolor sit amet.",
-          type: "Fact",
-          priority: 1,
-        },
-        {
-          text: "Consectetur adipiscing elit.",
-          type: "Opinion",
-          priority: 2,
-        },
-        {
-          text: "Lorem ipsum dolor sit amet.",
-          type: "Fact",
-          priority: 1,
-        },
-        {
-          text: "Consectetur adipiscing elit.",
-          type: "Opinion",
-          priority: 2,
-        },
-        {
-          text: "Lorem ipsum dolor sit amet.",
-          type: "Fact",
-          priority: 1,
-        },
-        {
-          text: "Consectetur adipiscing elit.",
-          type: "Opinion",
-          priority: 2,
-        },
-        {
-          text: "Lorem ipsum dolor sit amet.",
-          type: "Fact",
-          priority: 1,
-        },
-        {
-          text: "Consectetur adipiscing elit.",
-          type: "Opinion",
-          priority: 2,
-        },
-        {
-          text: "Lorem ipsum dolor sit amet.",
-          type: "Fact",
-          priority: 1,
-        },
-        {
-          text: "Consectetur adipiscing elit.",
-          type: "Opinion",
-          priority: 2,
-        },
-        {
-          text: "Lorem ipsum dolor sit amet.",
-          type: "Fact",
-          priority: 1,
-        },
-        {
-          text: "Consectetur adipiscing elit.",
-          type: "Opinion",
-          priority: 2,
-        },
-        {
-          text: "Lorem ipsum dolor sit amet.",
-          type: "Fact",
-          priority: 1,
-        },
-        {
-          text: "Consectetur adipiscing elit.",
-          type: "Opinion",
-          priority: 2,
-        },
-        {
-          text: "Lorem ipsum dolor sit amet.",
-          type: "Fact",
-          priority: 1,
-        },
-        {
-          text: "Consectetur adipiscing elit.",
-          type: "Opinion",
-          priority: 2,
-        },
-        {
-          text: "Lorem ipsum dolor sit amet.",
-          type: "Fact",
-          priority: 1,
-        },
-        {
-          text: "Consectetur adipiscing elit.",
-          type: "Opinion",
-          priority: 2,
-        },
-        {
-          text: "Lorem ipsum dolor sit amet.",
-          type: "Fact",
-          priority: 1,
-        },
-        {
-          text: "Consectetur adipiscing elit.",
-          type: "Opinion",
-          priority: 2,
-        },
-        {
-          text: "Lorem ipsum dolor sit amet.",
-          type: "Fact",
-          priority: 1,
-        },
-        {
-          text: "Consectetur adipiscing elit.",
-          type: "Opinion",
-          priority: 2,
-        },
-      ],
-    }),
-  ]; */
 
   return (
     <>
@@ -313,15 +99,7 @@ export default function Dashboard({ capsules }: InferGetServerSidePropsType<type
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   context.res.setHeader("Cache-Control", "public, s-maxage=60, stale-while-revalidate=59");
 
-  const session: AuthSession | null = await getServerSession(context.req, context.res, authOptions);
-
-  if (!session) {
-    return {
-      notFound: true,
-    };
-  }
-
-  const capsules = await getAllCapsules(session.access);
+  const capsules = await getAllCapsules();
 
   if (!capsules) {
     return {

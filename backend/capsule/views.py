@@ -7,7 +7,7 @@ from .serializers import CapsuleSerializer
 
 
 class CapsuleListView(APIView):
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (permissions.AllowAny,)
 
     def get_queryset(self):
         tag = self.request.query_params.get("tag")
@@ -50,7 +50,7 @@ class CapsuleListView(APIView):
 
 
 class CapsuleDetailView(generics.RetrieveAPIView):
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (permissions.AllowAny,)
     queryset = Capsule.objects.filter(is_active=True).prefetch_related(
         "tags",
         "locations",

@@ -6,7 +6,7 @@ from .serializers import CapsuleSerializer
 
 
 class CapsuleListView(generics.ListAPIView):
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (permissions.AllowAny,)
     pagination_class = CapsulePagination
     serializer_class = CapsuleSerializer
 
@@ -38,7 +38,7 @@ class CapsuleListView(generics.ListAPIView):
 
 
 class CapsuleDetailView(generics.RetrieveAPIView):
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (permissions.AllowAny,)
     queryset = Capsule.objects.filter(is_active=True).prefetch_related(
         "tags",
         "locations",

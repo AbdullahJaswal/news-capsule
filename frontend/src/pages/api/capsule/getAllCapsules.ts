@@ -2,7 +2,6 @@ import { APIResponse } from "@/common/types/APIResponse";
 import { Capsules } from "@/common/types/Capsule/Capsule";
 
 export const getAllCapsules = async (
-  access_token: string,
   tag?: string,
   location?: string,
   person?: string,
@@ -31,7 +30,6 @@ export const getAllCapsules = async (
 
     const res = await fetch(url, {
       headers: {
-        Authorization: `Bearer ${access_token}`,
         "Content-Type": "application/json",
       },
     });

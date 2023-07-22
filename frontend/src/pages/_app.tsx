@@ -10,6 +10,7 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 
 import { Merriweather as Font } from "next/font/google";
+import AuthLayout from "@/components/layouts/AuthLayout";
 
 const font = Font({
   subsets: ["latin"],
@@ -40,7 +41,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     function (page: ReactElement) {
       return (
         <main className={font.className}>
-          <DefaultLayout>{page}</DefaultLayout>
+          <AuthLayout>{page}</AuthLayout>
         </main>
       );
     };
